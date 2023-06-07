@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock-Paper-Scissors Game
+    </title>
+</head>
+<body>
+    <script>
+        let getComputerChoice = () => {
+            let randInt = Math.floor(Math.random() * 3);
+            let choice;
+
+            switch (randInt) {
+                case 0:
+                    choice = "Rock";
+                    break;
+                case 1:
+                    choice = "Paper";
+                    break;
+                default:
+                    choice = "Scissors";
+                    break;
+            }
+
+            return choice;
+        }
+
+        let playRound = (playerSelection, computerSelection) => {
+            
+            let player = capitalize(playerSelection);
+            let cpu = capitalize(computerSelection);
+            let playerWin;
+            let result;
+
+            if (player === cpu) {
+                result = "Tie! You both chose " + player;
+            }
+
+            else {
+
+                if (player === "Rock") {
+
+                    if (cpu === "Scissors")
+                        playerWin = true;
+
+                    else
+                        playerWin = false;
+                }
+
+                else if (player === "Paper") {
+                    
+                    if (cpu === "Rock")
+                        playerWin = true;
+
+                    else
+                        playerWin = false;
+                }
+
+                else {
+
+                    if (cpu === "Paper")
+                        playerWin = true;
+
+                    else
+                        playerWin = false;
+                }
+
+
+                if (playerWin) {
+                    result = "You win! " + player + " beats " + cpu;
+                }
+                else {
+                    result = "You lose! " + player + " loses to " + cpu;
+                }
+
+            }
+
+            return result;
+
+        }
+
+        let capitalize = (word) => {
+            return word.slice(0, 1).toUpperCase() + word.slice(1).toLowerCase();
+        }
+
+        let game = () => {
+            let playerWins = 0;
+            let game = 1;
+            let playerChoice;
+            let cpuChoice;
+            let gameResult;
+
+
+            while (game <= 5 ) {
+
+                playerChoice = prompt("Enter your move: ");
+                cpuChoice = getComputerChoice();
+                gameResult = playRound(playerChoice, cpuChoice);
+                console.log(gameResult);
+
+                if (gameResult.includes("win")) {
+                    game++;
+                    playerWins++;
+                }
+
+                else if (gameResult.includes("lose")) {
+                    game++;
+                }
+
+            }
+
+            if (playerWins >= 3) {
+                console.log("You win! You won " + playerWins + " of 5 games!");
+            }
+
+            else {
+                console.log("You lose! You only won " + playerWins + " of 5 games...");
+            }
+
+            return;
+        }
+
+
+
+    </script>
+</body>
+</html>
