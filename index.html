@@ -8,6 +8,17 @@
     </title>
 </head>
 <body>
+
+    <div class="score user">0</div>
+    <div class="score cpu">0</div>
+
+    <button class="input rock">Rock</button>
+    <button class="input paper">Paper</button>
+    <button class="input scissors">Scissors</button>
+
+    <div class="result"></div>
+
+
     <script>
         let getComputerChoice = () => {
             let randInt = Math.floor(Math.random() * 3);
@@ -28,15 +39,18 @@
             return choice;
         }
 
-        let playRound = (playerSelection, computerSelection) => {
-            
+        let playRound = (e) => {
+
+            let playerSelection = e.target.textContent;
             let player = capitalize(playerSelection);
-            let cpu = capitalize(computerSelection);
+            let cpu = capitalize(getComputerChoice());
             let playerWin;
-            let result;
+            const result = document.querySelector('.result');
+            const playerScore = document.querySelector('.user')
+            const cpuScore = document.querySelector('.cpu');
 
             if (player === cpu) {
-                result = "Tie! You both chose " + player;
+                result.textContent = "Tie! You both chose " + player;
             }
 
             else {
@@ -70,13 +84,31 @@
 
 
                 if (playerWin) {
-                    result = "You win! " + player + " beats " + cpu;
+                    result.textContent = "You win! " + player + " beats " + cpu;
+                    playerScore.textContent = Number.parseInt(playerScore.textContent) + 1;
                 }
                 else {
-                    result = "You lose! " + player + " loses to " + cpu;
+                    result.textContent = "You lose! " + player + " loses to " + cpu;
+                    cpuScore.textContent = Number.parseInt(cpuScore.textContent) + 1;
+
                 }
 
+                if (Number.parseInt(playerScore.textContent) == 5) {
+                    result.textContent = "You have won the game 5 - " + cpuScore.textContent + "!";
+                    playerScore.textContent = "0";
+                    cpuScore.textContent = "0";
+                }
+
+                else if (Number.parseInt(cpuScore.textContent) == 5) {
+                    result.textContent = "You have lost the game 5 - " + playerScore.textContent + " ...";
+                    playerScore.textContent = "0";
+                    cpuScore.textContent = "0";
+                }
+
+
+
             }
+
 
             return result;
 
@@ -86,44 +118,9 @@
             return word.slice(0, 1).toUpperCase() + word.slice(1).toLowerCase();
         }
 
-        let game = () => {
-            let playerWins = 0;
-            let game = 1;
-            let playerChoice;
-            let cpuChoice;
-            let gameResult;
-
-
-            while (game <= 5 ) {
-
-                playerChoice = prompt("Enter your move: ");
-                cpuChoice = getComputerChoice();
-                gameResult = playRound(playerChoice, cpuChoice);
-                console.log(gameResult);
-
-                if (gameResult.includes("win")) {
-                    game++;
-                    playerWins++;
-                }
-
-                else if (gameResult.includes("lose")) {
-                    game++;
-                }
-
-            }
-
-            if (playerWins >= 3) {
-                console.log("You win! You won " + playerWins + " of 5 games!");
-            }
-
-            else {
-                console.log("You lose! You only won " + playerWins + " of 5 games...");
-            }
-
-            return;
-        }
-
-
+        const buttons = document.querySelectorAll('.input');
+        
+        buttons.forEach( (btn) => btn.addEventListener('click', playRound))
 
     </script>
 </body>
