@@ -4,22 +4,34 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Rock-Paper-Scissors Game
     </title>
 </head>
 <body>
 
-    <div class="score user">0</div>
-    <div class="score cpu">0</div>
+    <div class="scores">
+        <div class="score user">0</div>
+        <div class="score cpu">0</div>
+    </div>
+    
 
-    <button class="input rock">Rock</button>
-    <button class="input paper">Paper</button>
-    <button class="input scissors">Scissors</button>
+    <div class="inputs">
+        <button class="input rock">Rock</button>
+        <button class="input paper">Paper</button>
+        <button class="input scissors">Scissors</button>
+    </div>
+    
 
     <div class="result"></div>
 
 
     <script>
+
+        function removeTransition(e) {
+            this.classList.remove('increment');
+        }
+
         let getComputerChoice = () => {
             let randInt = Math.floor(Math.random() * 3);
             let choice;
@@ -86,10 +98,29 @@
                 if (playerWin) {
                     result.textContent = "You win! " + player + " beats " + cpu;
                     playerScore.textContent = Number.parseInt(playerScore.textContent) + 1;
+                    playerScore.classList.add('increment');
+                    
                 }
                 else {
                     result.textContent = "You lose! " + player + " loses to " + cpu;
                     cpuScore.textContent = Number.parseInt(cpuScore.textContent) + 1;
+                    cpuScore.classList.add('increment');
+
+                }
+
+                if (Number.parseInt(playerScore.textContent) === 5 || Number.parseInt(cpuScore.textContent) === 5) {
+
+                    if (Number.parseInt(playerScore.textContent) == 5) {
+                        result.textContent = "You have won the game 5 - " + cpuScore.textContent + "!";
+                    }
+
+                    else {
+                        result.textContent = "You have lost the game 5 - " + playerScore.textContent + " ...";
+                    }
+
+                    result.textContent += "Click a move to play again."
+                    playerScore.textContent = "0";
+                    cpuScore.textContent = "0";
 
                 }
 
@@ -119,8 +150,11 @@
         }
 
         const buttons = document.querySelectorAll('.input');
+        const scores = document.querySelectorAll('.score');
+
+        scores.forEach( score => score.addEventListener('transitionend', removeTransition));
         
-        buttons.forEach( (btn) => btn.addEventListener('click', playRound))
+        buttons.forEach( (btn) => btn.addEventListener('click', playRound));
 
     </script>
 </body>
